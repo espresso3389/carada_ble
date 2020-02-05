@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Searching TGF901-BT...', style: TextStyle(fontSize: 30.0)),
+                    Text('TGF901-BTを検索中...', style: TextStyle(fontSize: 30.0)),
                     SizedBox(height: 10),
                     CircularProgressIndicator()
                   ]
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Waiting for CARADA...', style: TextStyle(fontSize: 30.0)),
+                    Text('体組成計と通信中...', style: TextStyle(fontSize: 30.0)),
                     SizedBox(height: 10),
                     CircularProgressIndicator()
                   ]
@@ -85,7 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('${data.weight} kg', style: TextStyle(fontSize: 40.0))
+                    Text('体重 ${data.weight} kg', style: TextStyle(fontSize: 40.0)),
+                    Text('体脂肪率 ${data.bodyFats} %', style: TextStyle(fontSize: 40.0)),
+                    Text('体水分量 ${data.totalBodyWater} %', style: TextStyle(fontSize: 40.0)),
+                    Text('体筋肉率 ${data.bodyMusclePerc} %', style: TextStyle(fontSize: 40.0)),
+                    Text('骨量 ${data.boneMass} kg', style: TextStyle(fontSize: 40.0)),
+                    Text('基礎代謝量 ${data.basalMetabolicRate} kcal', style: TextStyle(fontSize: 40.0)),
                   ]
                 )
               );

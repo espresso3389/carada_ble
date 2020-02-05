@@ -34,14 +34,39 @@ Future<BluetoothDevice> _scan(_ScanResult Function(ScanResult) onDevice, {Durati
 }
 
 class CaradaData {
+  /// 体重
   final double weight;
-  CaradaData({this.weight});
+  /// 体脂肪率
+  final double bodyFats;
+  /// 体水分量
+  final double totalBodyWater;
+  /// 体筋肉率
+  final double bodyMusclePerc;
+  /// 骨量
+  final double boneMass;
+  /// 基礎代謝量
+  final double basalMetabolicRate;
+
+  CaradaData({
+    this.weight,
+    this.bodyFats,
+    this.totalBodyWater,
+    this.bodyMusclePerc,
+    this.boneMass,
+    this.basalMetabolicRate});
 
   static CaradaData fromBytes(List<int> data) {
     return CaradaData(
-      weight: (data[6] * 256 + data[7]) / 10
+      weight: _be16(data, 6) / 10,
+      bodyFats: _be16(data, 8) / 10,
+      totalBodyWater: _be16(data, 10) / 10,
+      bodyMusclePerc: _be16(data, 12) / 10,
+      boneMass: data[14] / 10,
+      basalMetabolicRate: _be16(data, 15).toDouble()
     );
   }
+
+  static int _be16(List<int> data, int offset) => data[offset] * 256 + data[offset + 1];
 }
 
 class CaradaClient {
@@ -83,7 +108,7 @@ class CaradaClient {
   Future<void> start() async {
     _dataChar.setNotifyValue(true);
     _dataSub = _dataChar.value.listen((data) {
-      if (data.length == 11) {
+      if (data.length == 20) {
         _pub.add(CaradaData.fromBytes(data));
       }
     });
